@@ -9,20 +9,35 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace CalculatorApp
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void ModeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                var selectedItem = (ComboBoxItem)e.AddedItems[0];
+
+                if (selectedItem.Content.ToString() == "Programmer")
+                {
+                    // Open Programmer Mode Window
+                    ProgrammerWindow programmerWindow = new ProgrammerWindow();
+                    programmerWindow.Show();
+
+                    // Close the Standard Calculator Window
+                    this.Close();
+                }
+            }
+        }
     }
 }
+
