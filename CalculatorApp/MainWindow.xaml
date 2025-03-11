@@ -62,12 +62,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource RoundedButton}" Content="MC" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="0" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="MR" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="1" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M+" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M-" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="3" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="MS" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="4" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M>" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="5" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MC" Background="#5A7A5F" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MR" Background="#5A7A5F" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M+" Background="#5A7A5F" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M-" Background="#5A7A5F" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MS" Background="#5A7A5F" Grid.Column="4" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M>" Background="#5A7A5F" Grid.Column="5" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
         </Grid>
 
         <!-- Buttons Grid (Fitted Below Memory Buttons) -->
@@ -88,40 +88,40 @@
             </Grid.ColumnDefinitions>
 
             <!-- First Row -->
-            <Button Style="{StaticResource RoundedButton}" Content="%" Grid.Row="0" Grid.Column="0" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="CE" Grid.Row="0" Grid.Column="1" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="C" Grid.Row="0" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="⌫" Grid.Row="0" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="%" Background="#5A7A5F" Grid.Row="0" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="CE" Background="#5A7A5F" Grid.Row="0" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="C" Background="#5A7A5F" Grid.Row="0" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="⌫" Background="#5A7A5F" Grid.Row="0" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Second Row -->
-            <Button Style="{StaticResource RoundedButton}" Content="1/x" Grid.Row="1" Grid.Column="0" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="x²" Grid.Row="1" Grid.Column="1" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="²√x" Grid.Row="1" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="/" Grid.Row="1" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="1/x" Background="#5A7A5F" Grid.Row="1" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="x²" Background="#5A7A5F" Grid.Row="1" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="²√x" Background="#5A7A5F" Grid.Row="1" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="/" Background="#5A7A5F" Grid.Row="1" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Third Row -->
             <Button Style="{StaticResource RoundedButton}" Content="7" Grid.Row="2" Grid.Column="0" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="8" Grid.Row="2" Grid.Column="1" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="9" Grid.Row="2" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="×" Grid.Row="2" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="×" Background="#5A7A5F" Grid.Row="2" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Fourth Row -->
             <Button Style="{StaticResource RoundedButton}" Content="4" Grid.Row="3" Grid.Column="0" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="5" Grid.Row="3" Grid.Column="1" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="6" Grid.Row="3" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="-" Grid.Row="3" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="-" Background="#5A7A5F" Grid.Row="3" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Fifth Row -->
             <Button Style="{StaticResource RoundedButton}" Content="1" Grid.Row="4" Grid.Column="0" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="2" Grid.Row="4" Grid.Column="1" Click="ButtonClick"/>
             <Button Style="{StaticResource RoundedButton}" Content="3" Grid.Row="4" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="+" Grid.Row="4" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="+" Background="#5A7A5F" Grid.Row="4" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Sixth Row -->
-            <Button Style="{StaticResource RoundedButton}" Content="±" Grid.Row="5" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="±" Background="#5A7A5F" Grid.Row="5" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="0" Grid.Row="5" Grid.Column="1" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="." Grid.Row="5" Grid.Column="2" Click="ButtonClick"/>
-            <Button Style="{StaticResource RoundedButton}" Content="=" Grid.Row="5" Grid.Column="3" Background="#5A7A5F" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="." Background="#5A7A5F" Grid.Row="5" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="=" Background="#5A7A5F" Grid.Row="5" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
         </Grid>
     </Grid>
 </Window>

@@ -16,6 +16,10 @@ namespace CalculatorApp
 {
     public partial class MainWindow : Window
     {
+
+
+        private SolidColorBrush normalColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5A7A5F"));
+        private SolidColorBrush hoverColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E6652"));
         public MainWindow()
         {
             InitializeComponent();
@@ -23,13 +27,25 @@ namespace CalculatorApp
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            if (button != null)
+            //to be implemented
+
+        }
+
+        private void Button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is Button button)
             {
-                MessageBox.Show($"Button {button.Content} clicked!");
+                button.Background = hoverColor;
             }
         }
 
+        private void Button_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.Background = normalColor;
+            }
+        }
 
         private void ModeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
