@@ -21,6 +21,16 @@ namespace CalculatorApp
             InitializeComponent();
         }
 
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button != null)
+            {
+                MessageBox.Show($"Button {button.Content} clicked!");
+            }
+        }
+
+
         private void ModeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)

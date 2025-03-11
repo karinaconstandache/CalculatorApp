@@ -13,7 +13,7 @@
     <!--
     </Window.DataContext>-->
 
-    <Grid Background="#1E1E1E">
+    <Grid Background="#6B8F71">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Menu Bar -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#2D2D2D">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#5A7A5F">
             <!-- Mode Switch Dropdown -->
             <ComboBox Width="120" SelectedIndex="0" SelectionChanged="ModeSelectionChanged">
                 <ComboBoxItem Content="Standard" IsSelected="True"/>
@@ -49,8 +49,8 @@
         </StackPanel>
 
         <!-- Display for result -->
-        <TextBlock Text="0" FontSize="50" Foreground="White" TextAlignment="Right" 
-                   Padding="10" Height="80" Background="#2D2D2D" Grid.Row="1"/>
+        <TextBlock Text="0" FontSize="50" Foreground="#FFFFFF" TextAlignment="Right" 
+                   Padding="10" Height="80" Background="#5A7A5F" Grid.Row="1"/>
 
         <!-- Memory Buttons -->
         <Grid Grid.Row="2" Margin="5">
@@ -62,12 +62,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Content="MC" Foreground="Gray" Background="#1E1E1E" Grid.Column="0"/>
-            <Button Content="MR" Foreground="Gray" Background="#1E1E1E" Grid.Column="1"/>
-            <Button Content="M+" Foreground="Gray" Background="#1E1E1E" Grid.Column="2"/>
-            <Button Content="M-" Foreground="Gray" Background="#1E1E1E" Grid.Column="3"/>
-            <Button Content="MS" Foreground="Gray" Background="#1E1E1E" Grid.Column="4"/>
-            <Button Content="M>" Foreground="Gray" Background="#1E1E1E" Grid.Column="5"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MC" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MR" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M+" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M-" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="3" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MS" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="4" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M>" Foreground="#FFFFFF" Background="#6B8F71" Grid.Column="5" Click="ButtonClick"/>
         </Grid>
 
         <!-- Buttons Grid (Fitted Below Memory Buttons) -->
@@ -88,40 +88,40 @@
             </Grid.ColumnDefinitions>
 
             <!-- First Row -->
-            <Button Content="%" Grid.Row="0" Grid.Column="0"/>
-            <Button Content="CE" Grid.Row="0" Grid.Column="1"/>
-            <Button Content="C" Grid.Row="0" Grid.Column="2"/>
-            <Button Content="⌫" Grid.Row="0" Grid.Column="3"/>
+            <Button Style="{StaticResource RoundedButton}" Content="%" Grid.Row="0" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="CE" Grid.Row="0" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="C" Grid.Row="0" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="⌫" Grid.Row="0" Grid.Column="3" Click="ButtonClick"/>
 
             <!-- Second Row -->
-            <Button Content="1/x" Grid.Row="1" Grid.Column="0"/>
-            <Button Content="x²" Grid.Row="1" Grid.Column="1"/>
-            <Button Content="²√x" Grid.Row="1" Grid.Column="2"/>
-            <Button Content="/" Grid.Row="1" Grid.Column="3"/>
+            <Button Style="{StaticResource RoundedButton}" Content="1/x" Grid.Row="1" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="x²" Grid.Row="1" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="²√x" Grid.Row="1" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="/" Grid.Row="1" Grid.Column="3" Click="ButtonClick"/>
 
             <!-- Third Row -->
-            <Button Content="7" Grid.Row="2" Grid.Column="0"/>
-            <Button Content="8" Grid.Row="2" Grid.Column="1"/>
-            <Button Content="9" Grid.Row="2" Grid.Column="2"/>
-            <Button Content="×" Grid.Row="2" Grid.Column="3"/>
+            <Button Style="{StaticResource RoundedButton}" Content="7" Grid.Row="2" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="8" Grid.Row="2" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="9" Grid.Row="2" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="×" Grid.Row="2" Grid.Column="3" Click="ButtonClick"/>
 
             <!-- Fourth Row -->
-            <Button Content="4" Grid.Row="3" Grid.Column="0"/>
-            <Button Content="5" Grid.Row="3" Grid.Column="1"/>
-            <Button Content="6" Grid.Row="3" Grid.Column="2"/>
-            <Button Content="-" Grid.Row="3" Grid.Column="3"/>
+            <Button Style="{StaticResource RoundedButton}" Content="4" Grid.Row="3" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="5" Grid.Row="3" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="6" Grid.Row="3" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="-" Grid.Row="3" Grid.Column="3" Click="ButtonClick"/>
 
             <!-- Fifth Row -->
-            <Button Content="1" Grid.Row="4" Grid.Column="0"/>
-            <Button Content="2" Grid.Row="4" Grid.Column="1"/>
-            <Button Content="3" Grid.Row="4" Grid.Column="2"/>
-            <Button Content="+" Grid.Row="4" Grid.Column="3"/>
+            <Button Style="{StaticResource RoundedButton}" Content="1" Grid.Row="4" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="2" Grid.Row="4" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="3" Grid.Row="4" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="+" Grid.Row="4" Grid.Column="3" Click="ButtonClick"/>
 
             <!-- Sixth Row -->
-            <Button Content="±" Grid.Row="5" Grid.Column="0"/>
-            <Button Content="0" Grid.Row="5" Grid.Column="1"/>
-            <Button Content="." Grid.Row="5" Grid.Column="2"/>
-            <Button Content="=" Grid.Row="5" Grid.Column="3" Background="#AAAAAA"/>
+            <Button Style="{StaticResource RoundedButton}" Content="±" Grid.Row="5" Grid.Column="0" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="0" Grid.Row="5" Grid.Column="1" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="." Grid.Row="5" Grid.Column="2" Click="ButtonClick"/>
+            <Button Style="{StaticResource RoundedButton}" Content="=" Grid.Row="5" Grid.Column="3" Background="#5A7A5F" Click="ButtonClick"/>
         </Grid>
     </Grid>
 </Window>
