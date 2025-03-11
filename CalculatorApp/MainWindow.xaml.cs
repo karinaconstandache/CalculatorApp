@@ -18,8 +18,10 @@ namespace CalculatorApp
     {
 
 
-        private SolidColorBrush normalColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5A7A5F"));
-        private SolidColorBrush hoverColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E6652"));
+        private SolidColorBrush normalOperatorColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5A7A5F"));
+        private SolidColorBrush hoverOperatorColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4E6652"));
+        private SolidColorBrush normalDigitColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6B8F71"));
+        private SolidColorBrush hoverDigitColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5A7A5F"));
         public MainWindow()
         {
             InitializeComponent();
@@ -35,7 +37,15 @@ namespace CalculatorApp
         {
             if (sender is Button button)
             {
-                button.Background = hoverColor;
+                // Check if the button is a digit button (0-9)
+                if ("0123456789".Contains(button.Content.ToString()))
+                {
+                    button.Background = hoverDigitColor;
+                }
+                else
+                {
+                    button.Background = hoverOperatorColor;
+                }
             }
         }
 
@@ -43,7 +53,15 @@ namespace CalculatorApp
         {
             if (sender is Button button)
             {
-                button.Background = normalColor;
+                // Check if the button is a digit button (0-9)
+                if ("0123456789".Contains(button.Content.ToString()))
+                {
+                    button.Background = normalDigitColor;
+                }
+                else
+                {
+                    button.Background = normalOperatorColor;
+                }
             }
         }
 
