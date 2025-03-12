@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CalculatorApp.ViewModels
@@ -11,6 +7,7 @@ namespace CalculatorApp.ViewModels
     public class CalculatorViewModel : INotifyPropertyChanged
     {
         private string _displayText = "0";
+        private string _historyText = "";
         private double _currentValue = 0;
         private string _selectedOperator;
         private bool _isNewEntry = true;
@@ -27,10 +24,21 @@ namespace CalculatorApp.ViewModels
             }
         }
 
+        public string HistoryText
+        {
+            get => _historyText;
+            set
+            {
+                _historyText = value;
+                OnPropertyChanged(nameof(HistoryText));
+            }
+        }
+
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
         public ICommand EqualsCommand { get; }
         public ICommand ClearCommand { get; }
+        public ICommand UnaryCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -38,6 +46,7 @@ namespace CalculatorApp.ViewModels
             OperatorCommand = new RelayCommand(param => SetOperator(param?.ToString() ?? ""));
             EqualsCommand = new RelayCommand(_ => CalculateResult());
             ClearCommand = new RelayCommand(_ => Clear());
+            UnaryCommand = new RelayCommand(param => PerformUnaryOperation(param?.ToString() ?? ""));
         }
 
         private void AppendNumber(string number)
@@ -53,7 +62,6 @@ namespace CalculatorApp.ViewModels
             _isNewEntry = false;
         }
 
-
         private void SetOperator(string op)
         {
             if (!_isNewEntry) // If an operator is pressed after a number
@@ -63,9 +71,9 @@ namespace CalculatorApp.ViewModels
 
             _currentValue = double.Parse(DisplayText);
             _selectedOperator = op;
+            HistoryText = $"{_currentValue} {op}";  // Display the ongoing operation
             _isNewEntry = true;
         }
-
 
         private void CalculateResult()
         {
@@ -73,44 +81,64 @@ namespace CalculatorApp.ViewModels
                 return; // Prevents error when "=" is pressed without an operator
 
             double secondValue = double.Parse(DisplayText);
+            double result = _currentValue;
+
             switch (_selectedOperator)
             {
                 case "+":
-                    DisplayText = (_currentValue + secondValue).ToString();
+                    result += secondValue;
                     break;
                 case "-":
-                    DisplayText = (_currentValue - secondValue).ToString();
+                    result -= secondValue;
                     break;
                 case "*":
-                    DisplayText = (_currentValue * secondValue).ToString();
+                    result *= secondValue;
                     break;
                 case "/":
-                    DisplayText = secondValue != 0 ? (_currentValue / secondValue).ToString() : "Error";
+                    result = secondValue != 0 ? result / secondValue : double.NaN;
                     break;
                 case "%":
-                    DisplayText = (_currentValue % secondValue).ToString();
-                    break;
-                case "sqrt":
-                    DisplayText = Math.Sqrt(_currentValue).ToString();
-                    break;
-                case "^2":
-                    DisplayText = (_currentValue * _currentValue).ToString();
-                    break;
-                case "+/-":
-                    DisplayText = (-_currentValue).ToString();
-                    break;
-                case "1/x":
-                    DisplayText = _currentValue != 0 ? (1 / _currentValue).ToString() : "Error";
+                    result = secondValue != 0 ? result % secondValue : double.NaN;
                     break;
             }
-            _selectedOperator = null; // Reset operator after calculation
+
+            DisplayText = result.ToString();
+            _currentValue = result;
+            HistoryText = ""; // Clear history after calculation
+            _selectedOperator = null;
             _isNewEntry = true;
         }
 
+        private void PerformUnaryOperation(string op)
+        {
+            double value = double.Parse(DisplayText);
+            double result = value;
+
+            switch (op)
+            {
+                case "sqrt":
+                    result = Math.Sqrt(value);
+                    break;
+                case "^2":
+                    result = value * value;
+                    break;
+                case "+/-":
+                    result = -value;
+                    break;
+                case "1/x":
+                    result = value != 0 ? 1 / value : double.NaN;
+                    break;
+            }
+
+            DisplayText = result.ToString();
+            _currentValue = result;
+            _isNewEntry = true;
+        }
 
         private void Clear()
         {
             DisplayText = "0";
+            HistoryText = "";
             _currentValue = 0;
             _selectedOperator = null;
             _isNewEntry = true;
