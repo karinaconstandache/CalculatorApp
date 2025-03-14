@@ -38,7 +38,6 @@ namespace CalculatorApp
         {
             if (sender is Button button)
             {
-                // Check if the button is a digit button (0-9)
                 if ("0123456789".Contains(button.Content.ToString()))
                 {
                     button.Background = hoverDigitColor;
@@ -54,7 +53,6 @@ namespace CalculatorApp
         {
             if (sender is Button button)
             {
-                // Check if the button is a digit button (0-9)
                 if ("0123456789".Contains(button.Content.ToString()))
                 {
                     button.Background = normalDigitColor;
@@ -74,11 +72,9 @@ namespace CalculatorApp
 
                 if (selectedItem.Content.ToString() == "Programmer")
                 {
-                    // Open Programmer Mode Window
                     ProgrammerWindow programmerWindow = new ProgrammerWindow();
                     programmerWindow.Show();
 
-                    // Close the Standard Calculator Window
                     this.Close();
                 }
             }

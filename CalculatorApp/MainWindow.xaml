@@ -95,9 +95,9 @@
 
             <!-- First Row -->
             <Button Style="{StaticResource RoundedButton}" Content="%" Background="#5A7A5F" Grid.Row="0" Grid.Column="0" Command="{Binding OperatorCommand}" CommandParameter="%" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="CE" Background="#5A7A5F" Grid.Row="0" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="CE" Background="#5A7A5F" Grid.Row="0" Grid.Column="1" Command="{Binding ClearEntryCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="C" Background="#5A7A5F" Grid.Row="0" Grid.Column="2" Command="{Binding ClearCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="⌫" Background="#5A7A5F" Grid.Row="0" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="⌫" Background="#5A7A5F" Grid.Row="0" Grid.Column="3" Command="{Binding BackspaceCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
             <!-- Second Row -->
             <Button Style="{StaticResource RoundedButton}" Content="1/x" Background="#5A7A5F" Grid.Row="1" Grid.Column="0" Command="{Binding UnaryCommand}" CommandParameter="1/x" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>

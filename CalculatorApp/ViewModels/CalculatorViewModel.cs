@@ -39,6 +39,8 @@ namespace CalculatorApp.ViewModels
         public ICommand EqualsCommand { get; }
         public ICommand ClearCommand { get; }
         public ICommand UnaryCommand { get; }
+        public ICommand BackspaceCommand { get; }
+        public ICommand ClearEntryCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -47,38 +49,40 @@ namespace CalculatorApp.ViewModels
             EqualsCommand = new RelayCommand(_ => CalculateResult());
             ClearCommand = new RelayCommand(_ => Clear());
             UnaryCommand = new RelayCommand(param => PerformUnaryOperation(param?.ToString() ?? ""));
+            BackspaceCommand = new RelayCommand(_ => Backspace());
+            ClearEntryCommand = new RelayCommand(_ => ClearEntry());
         }
 
         private void AppendNumber(string number)
         {
             if (_isNewEntry || DisplayText == "0")
             {
-                DisplayText = number; // Replace 0 instead of appending
+                DisplayText = number; 
             }
             else
             {
-                DisplayText += number; // Append numbers normally
+                DisplayText += number;
             }
             _isNewEntry = false;
         }
 
         private void SetOperator(string op)
         {
-            if (!_isNewEntry) // If an operator is pressed after a number
+            if (!_isNewEntry) 
             {
-                CalculateResult(); // Compute the previous operation before setting a new one
+                CalculateResult();
             }
 
             _currentValue = double.Parse(DisplayText);
             _selectedOperator = op;
-            HistoryText = $"{_currentValue} {op}";  // Display the ongoing operation
+            HistoryText = $"{_currentValue} {op}";
             _isNewEntry = true;
         }
 
         private void CalculateResult()
         {
             if (_selectedOperator == null)
-                return; // Prevents error when "=" is pressed without an operator
+                return;
 
             double secondValue = double.Parse(DisplayText);
             double result = _currentValue;
@@ -135,6 +139,24 @@ namespace CalculatorApp.ViewModels
             _isNewEntry = true;
         }
 
+        private void Backspace()
+        {
+            if (_isNewEntry)
+            {
+                return;
+            }
+
+            if (DisplayText.Length > 1)
+            {
+                DisplayText = DisplayText.Substring(0, DisplayText.Length - 1);
+            }
+            else
+            {
+                DisplayText = "0"; 
+                _isNewEntry = true;
+            }
+        }
+
         private void Clear()
         {
             DisplayText = "0";
@@ -142,6 +164,10 @@ namespace CalculatorApp.ViewModels
             _currentValue = 0;
             _selectedOperator = null;
             _isNewEntry = true;
+        }
+        private void ClearEntry()
+        {
+            DisplayText = "0";
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
