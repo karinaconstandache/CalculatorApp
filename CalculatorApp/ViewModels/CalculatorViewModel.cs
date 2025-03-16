@@ -57,7 +57,7 @@ namespace CalculatorApp.ViewModels
         {
             if (_isNewEntry || DisplayText == "0")
             {
-                DisplayText = number; 
+                DisplayText = number;
             }
             else
             {
@@ -68,7 +68,7 @@ namespace CalculatorApp.ViewModels
 
         private void SetOperator(string op)
         {
-            if (!_isNewEntry) 
+            if (!_isNewEntry)
             {
                 CalculateResult();
             }
@@ -134,8 +134,17 @@ namespace CalculatorApp.ViewModels
                     break;
             }
 
-            DisplayText = result.ToString();
-            _currentValue = result;
+            // If there is a pending operator, update DisplayText but keep _currentValue
+            if (_selectedOperator != null)
+            {
+                DisplayText = result.ToString();
+            }
+            else
+            {
+                _currentValue = result;
+                DisplayText = _currentValue.ToString();
+            }
+
             _isNewEntry = true;
         }
 
@@ -152,7 +161,7 @@ namespace CalculatorApp.ViewModels
             }
             else
             {
-                DisplayText = "0"; 
+                DisplayText = "0";
                 _isNewEntry = true;
             }
         }
@@ -165,6 +174,7 @@ namespace CalculatorApp.ViewModels
             _selectedOperator = null;
             _isNewEntry = true;
         }
+
         private void ClearEntry()
         {
             DisplayText = "0";

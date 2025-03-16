@@ -26,6 +26,52 @@ namespace CalculatorApp
         public MainWindow()
         {
             InitializeComponent();
+            this.KeyDown += MainWindow_KeyDown; // Attach KeyDown event handler
+        }
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (DataContext is CalculatorViewModel viewModel)
+            {
+                // Prioritize operator keys first
+                switch (e.Key)
+                {
+                    case Key.OemPlus:
+                        if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                            viewModel.OperatorCommand.Execute("+");
+                        return;
+                    case Key.OemMinus:
+                    case Key.Subtract:
+                        viewModel.OperatorCommand.Execute("-");
+                        return;
+                    case Key.Oem2:
+                    case Key.Divide:
+                        viewModel.OperatorCommand.Execute("/");
+                        return;
+                    case Key.Multiply:
+                        viewModel.OperatorCommand.Execute("*");
+                        return;
+                    case Key.D8:
+                        if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                        {
+                            viewModel.OperatorCommand.Execute("*");
+                            return;
+                        }
+                        break;
+                    case Key.Enter:
+                        if (!string.IsNullOrEmpty(viewModel.DisplayText))
+                            viewModel.EqualsCommand.Execute(null);
+                        return;
+                    case Key.Escape:
+                        viewModel.ClearCommand.Execute(null);
+                        return;
+                }
+
+                // Handle digit keys separately
+                if (e.Key >= Key.D0 && e.Key <= Key.D9)
+                {
+                    viewModel.NumberCommand.Execute((e.Key - Key.D0).ToString());
+                }
+            }
         }
 
         private void ButtonClick(object sender, RoutedEventArgs e)
