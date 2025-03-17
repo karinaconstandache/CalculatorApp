@@ -231,36 +231,57 @@ namespace CalculatorApp.ViewModels
         {
             DisplayText = "0";
         }
-        private void AddToMemory(double? selectedMemoryValue)
+        private void AddToMemory(double? selectedMemoryValue = null)
         {
-            Console.WriteLine($"M+ pressed. Current Display Value: {DisplayText}");
-            if (selectedMemoryValue.HasValue)
+            if (double.TryParse(DisplayText, out double valueToAdd))
             {
-                double valueToAdd = double.Parse(DisplayText);
-                int index = _memoryStack.IndexOf(selectedMemoryValue.Value);  // Find the selected item in the memory stack
-                if (index >= 0)
+                if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
                 {
-                    _memoryStack[index] += valueToAdd;  // Add the displayed value to the selected memory item
+                    int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
+                    if (index >= 0)
+                    {
+                        _memoryStack[index] += valueToAdd;
+                    }
                 }
-                Console.WriteLine("Updated Memory Stack: " + string.Join(", ", _memoryStack));
-
-                OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
+                else // Called from the main window (modify the last memory value)
+                {
+                    if (_memoryStack.Any())
+                    {
+                        _memoryStack[_memoryStack.Count - 1] += valueToAdd;
+                    }
+                    else
+                    {
+                        _memoryStack.Add(valueToAdd); // If empty, initialize memory with the value
+                    }
+                }
+                OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
             }
         }
 
-        private void RemoveFromMemory(double? selectedMemoryValue)
+        private void RemoveFromMemory(double? selectedMemoryValue = null)
         {
-            if (selectedMemoryValue.HasValue)
+            if (double.TryParse(DisplayText, out double valueToSubtract))
             {
-                double valueToSubtract = double.Parse(DisplayText);
-                int index = _memoryStack.IndexOf(selectedMemoryValue.Value);  // Find the selected item in the memory stack
-                if (index >= 0)
+                if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
                 {
-                    _memoryStack[index] -= valueToSubtract;  // Subtract the displayed value from the selected memory item
+                    int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
+                    if (index >= 0)
+                    {
+                        _memoryStack[index] -= valueToSubtract;
+                    }
                 }
-                Console.WriteLine("Updated Memory Stack: " + string.Join(", ", _memoryStack));
-
-                OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
+                else // Called from the main window (modify the last memory value)
+                {
+                    if (_memoryStack.Any())
+                    {
+                        _memoryStack[_memoryStack.Count - 1] -= valueToSubtract;
+                    }
+                    else
+                    {
+                        _memoryStack.Add(-valueToSubtract); // If empty, initialize memory with the value
+                    }
+                }
+                OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
             }
         }
 
