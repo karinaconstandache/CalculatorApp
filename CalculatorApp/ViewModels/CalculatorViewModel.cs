@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace CalculatorApp.ViewModels
 {
@@ -69,9 +70,10 @@ namespace CalculatorApp.ViewModels
         public ICommand ClearEntryCommand { get; }
         public ICommand DecimalPointCommand { get; }
         public ICommand MemoryAddCommand { get; }
-        public ICommand MemoryRemoveCommand { get; }
+        public ICommand MemorySubtractCommand { get; }
         public ICommand MemoryStoreCommand { get; }
         public ICommand MemoryClearCommand { get; }
+        public ICommand MemoryItemClearCommand { get; }
         public ICommand ToggleMemoryCommand { get; }
 
         public CalculatorViewModel()
@@ -86,9 +88,31 @@ namespace CalculatorApp.ViewModels
             DecimalPointCommand = new RelayCommand(_ => AppendDecimalPoint());
 
             MemoryAddCommand = new RelayCommand(param => AddToMemory(param as double?));
-            MemoryRemoveCommand = new RelayCommand(param => RemoveFromMemory(param as double?));
+            MemorySubtractCommand = new RelayCommand(param => SubtractFromMemory(param as double?));
             MemoryStoreCommand = new RelayCommand(param => StoreInMemory(param as double?));
             MemoryClearCommand = new RelayCommand(param => ClearMemory());
+            MemoryItemClearCommand = new RelayCommand(param =>
+            {
+                if (param != null)
+                {
+                    double value;
+                    if (param is double doubleParam)
+                    {
+                        value = doubleParam;
+                    }
+                    else if (double.TryParse(param.ToString(), out double parsedValue))
+                    {
+                        value = parsedValue;
+                    }
+                    else
+                    {
+                        return; // Invalid parameter
+                    }
+
+                    _memoryStack.Remove(value);
+                    OnPropertyChanged(nameof(MemoryStack));
+                }
+            });
             ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryVisibility());
         }
 
@@ -258,10 +282,11 @@ namespace CalculatorApp.ViewModels
             }
         }
 
-        private void RemoveFromMemory(double? selectedMemoryValue = null)
+        private void SubtractFromMemory(double? selectedMemoryValue = null)
         {
             if (double.TryParse(DisplayText, out double valueToSubtract))
             {
+
                 if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
                 {
                     int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
@@ -293,12 +318,53 @@ namespace CalculatorApp.ViewModels
                 OnPropertyChanged(nameof(MemoryStack));
             }
         }
-
-        private void ClearMemory()
+        private void ClearMemory(object selectedMemoryValue = null)
         {
-            _memoryStack.Clear();  // Clear the entire memory stack
-            OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
+            // Debug to see what type of value is being passed
+            if (selectedMemoryValue != null)
+            {
+                MessageBox.Show($"Type: {selectedMemoryValue.GetType()}, Value: {selectedMemoryValue}");
+            }
+            else
+            {
+                MessageBox.Show("selectedMemoryValue is null");
+            }
+
+            // Try to convert to double if it's not null
+            double? memoryValue = null;
+            if (selectedMemoryValue != null)
+            {
+                if (selectedMemoryValue is double doubleValue)
+                {
+                    memoryValue = doubleValue;
+                }
+                else if (double.TryParse(selectedMemoryValue.ToString(), out double parsedValue))
+                {
+                    memoryValue = parsedValue;
+                }
+            }
+
+            if (memoryValue.HasValue) // Called from M> menu (specific value)
+            {
+                _memoryStack.Remove(memoryValue.Value);
+                if (_memoryStack.Count > 0)
+                {
+                    MessageBox.Show($"Removed value. Last item now: {_memoryStack[_memoryStack.Count - 1]}");
+                }
+                else
+                {
+                    MessageBox.Show("Memory stack is now empty");
+                }
+            }
+            else // Called from the main window (clear entire memory stack)
+            {
+                _memoryStack.Clear();
+                MessageBox.Show("Cleared entire memory stack");
+            }
+
+            OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
         }
+
         private void ToggleMemoryVisibility()
         {
             IsMemoryVisible = !IsMemoryVisible;  // Toggle the visibility state

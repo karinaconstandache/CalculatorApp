@@ -107,15 +107,9 @@
                         CommandParameter="{Binding}" 
                         Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
 
-                                    <!-- MS Button -->
-                                    <Button Content="MS" 
-                        Command="{Binding DataContext.MemoryStoreCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
-                        CommandParameter="{Binding}" 
-                        Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
-
                                     <!-- MC Button -->
                                     <Button Content="MC" 
-                        Command="{Binding DataContext.MemoryClearCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                        Command="{Binding DataContext.MemoryItemClearCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
                         CommandParameter="{Binding}" 
                         Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
                                 </StackPanel>
