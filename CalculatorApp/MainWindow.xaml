@@ -70,11 +70,37 @@
             </Grid.ColumnDefinitions>
             <Button Style="{StaticResource RoundedButton}" Content="MC" Background="#5A7A5F" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="MR" Background="#5A7A5F" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M+" Background="#5A7A5F" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M-" Background="#5A7A5F" Grid.Column="3" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M+" Background="#5A7A5F" Grid.Column="2" Command="{Binding MemoryAddCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M-" Background="#5A7A5F" Grid.Column="3" Command="{Binding MemoryRemoveCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="MS" Background="#5A7A5F" Grid.Column="4" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="M>" Background="#5A7A5F" Grid.Column="5" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="M>" Background="#5A7A5F" Grid.Column="5" Command="{Binding ToggleMemoryCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
         </Grid>
+
+        <Grid Grid.Row="3" Margin="10">
+            <!-- Memory Stack Panel -->
+            <Border Background="#EFEFEF" CornerRadius="8"
+            Visibility="{Binding IsMemoryVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+            VerticalAlignment="Top"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            Padding="10"
+            Panel.ZIndex="2">
+
+                <StackPanel>
+                    <TextBlock Text="Memory" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="5"/>
+                    <ListBox ItemsSource="{Binding MemoryStack}" 
+                     Foreground="Black" 
+                     Background="White" 
+                     Height="100" 
+                     BorderThickness="0"/>
+                    <Button Content="Close" Command="{Binding ToggleMemoryCommand}" 
+                    Background="#5A7A5F" Foreground="White"
+                    HorizontalAlignment="Center" 
+                    Margin="5"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
 
         <!-- Buttons Grid (Fitted Below Memory Buttons) -->
         <Grid Grid.Row="4" Margin="10" VerticalAlignment="Stretch">

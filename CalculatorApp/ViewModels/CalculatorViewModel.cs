@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace CalculatorApp.ViewModels
 {
@@ -11,6 +13,9 @@ namespace CalculatorApp.ViewModels
         private double _currentValue = 0;
         private string _selectedOperator;
         private bool _isNewEntry = true;
+
+        private ObservableCollection<double> _memoryStack = new ObservableCollection<double>();
+        private bool _isMemoryVisible = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -34,6 +39,26 @@ namespace CalculatorApp.ViewModels
             }
         }
 
+        public ObservableCollection<double> MemoryStack
+        {
+            get => _memoryStack;
+            set
+            {
+                _memoryStack = value;
+                OnPropertyChanged(nameof(MemoryStack));
+            }
+        }
+
+        public bool IsMemoryVisible
+        {
+            get => _isMemoryVisible;
+            set
+            {
+                _isMemoryVisible = value;
+                OnPropertyChanged(nameof(IsMemoryVisible));
+            }
+        }
+
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
         public ICommand EqualsCommand { get; }
@@ -42,6 +67,9 @@ namespace CalculatorApp.ViewModels
         public ICommand BackspaceCommand { get; }
         public ICommand ClearEntryCommand { get; }
         public ICommand DecimalPointCommand { get; }
+        public ICommand MemoryAddCommand { get; }
+        public ICommand MemoryRemoveCommand { get; }
+        public ICommand ToggleMemoryCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -53,6 +81,10 @@ namespace CalculatorApp.ViewModels
             BackspaceCommand = new RelayCommand(_ => Backspace());
             ClearEntryCommand = new RelayCommand(_ => ClearEntry());
             DecimalPointCommand = new RelayCommand(_ => AppendDecimalPoint());
+
+            MemoryAddCommand = new RelayCommand(_ => AddToMemory());
+            MemoryRemoveCommand = new RelayCommand(_ => RemoveFromMemory());
+            ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryDisplay());
         }
 
         private void AppendNumber(string number)
@@ -193,6 +225,30 @@ namespace CalculatorApp.ViewModels
         private void ClearEntry()
         {
             DisplayText = "0";
+        }
+
+        private void AddToMemory()
+        {
+            if (double.TryParse(DisplayText, out double value))
+            {
+                _memoryStack.Add(value);
+                OnPropertyChanged(nameof(MemoryStack));
+            }
+        }
+
+        private void RemoveFromMemory()
+        {
+            if (_memoryStack.Any())
+            {
+                _memoryStack.RemoveAt(_memoryStack.Count - 1);
+                OnPropertyChanged(nameof(MemoryStack));
+            }
+        }
+
+        private void ToggleMemoryDisplay()
+        {
+            IsMemoryVisible = !IsMemoryVisible;
+            OnPropertyChanged(nameof(IsMemoryVisible));
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
