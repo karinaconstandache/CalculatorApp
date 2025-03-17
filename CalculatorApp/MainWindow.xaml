@@ -50,7 +50,8 @@
 
             <MenuItem Header="Digit Grouping" 
                       IsCheckable="True" 
-                      IsChecked="{Binding IsDigitGroupingEnabled, Mode=TwoWay}"/>
+                      IsChecked="{Binding IsDigitGroupingEnabled, Mode=TwoWay}"
+                      Focusable="False"/>
         </StackPanel>
 
         <!-- Display for result -->
