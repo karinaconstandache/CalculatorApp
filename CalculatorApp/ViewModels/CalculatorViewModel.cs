@@ -27,18 +27,25 @@ namespace CalculatorApp.ViewModels
             get => _displayText;
             set
             {
-                if (double.TryParse(value.Replace(",", ""), out double numVal))
+                // Preserve a trailing decimal point
+                if (value.EndsWith("."))
                 {
-                    _displayText = IsDigitGroupingEnabled ? FormatDisplayValue(numVal.ToString()) : numVal.ToString();
+                    _displayText = value;
+                }
+                else if (double.TryParse(value.Replace(",", ""), out double numVal))
+                {
+                    _displayText = IsDigitGroupingEnabled
+                        ? FormatDisplayValue(numVal.ToString())
+                        : numVal.ToString();
                 }
                 else
                 {
                     _displayText = value;
                 }
-
                 OnPropertyChanged(nameof(DisplayText));
             }
         }
+
 
 
         public string HistoryText
@@ -206,8 +213,6 @@ namespace CalculatorApp.ViewModels
                 OnPropertyChanged(nameof(DisplayText));
             }
         }
-
-
 
         private void AppendNumber(string number)
         {
