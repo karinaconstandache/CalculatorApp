@@ -41,6 +41,7 @@ namespace CalculatorApp.ViewModels
         public ICommand UnaryCommand { get; }
         public ICommand BackspaceCommand { get; }
         public ICommand ClearEntryCommand { get; }
+        public ICommand DecimalPointCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -51,6 +52,7 @@ namespace CalculatorApp.ViewModels
             UnaryCommand = new RelayCommand(param => PerformUnaryOperation(param?.ToString() ?? ""));
             BackspaceCommand = new RelayCommand(_ => Backspace());
             ClearEntryCommand = new RelayCommand(_ => ClearEntry());
+            DecimalPointCommand = new RelayCommand(_ => AppendDecimalPoint());
         }
 
         private void AppendNumber(string number)
@@ -64,6 +66,19 @@ namespace CalculatorApp.ViewModels
                 DisplayText += number;
             }
             _isNewEntry = false;
+        }
+
+        private void AppendDecimalPoint()
+        {
+            if (_isNewEntry)
+            {
+                DisplayText = "0.";  // Start a new decimal number if necessary
+                _isNewEntry = false;
+            }
+            else if (!DisplayText.Contains("."))
+            {
+                DisplayText += ".";
+            }
         }
 
         private void SetOperator(string op)

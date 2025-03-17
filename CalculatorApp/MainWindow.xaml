@@ -126,7 +126,7 @@
             <!-- Sixth Row -->
             <Button Style="{StaticResource RoundedButton}" Content="±" Background="#5A7A5F" Grid.Row="5" Grid.Column="0" Command="{Binding UnaryCommand}" CommandParameter="+/-" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="0" Grid.Row="5" Grid.Column="1" Command="{Binding NumberCommand}" CommandParameter="0" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="." Background="#5A7A5F" Grid.Row="5" Grid.Column="2" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="." Background="#5A7A5F" Grid.Row="5" Grid.Column="2" Command="{Binding DecimalPointCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="=" Background="#5A7A5F" Grid.Row="5" Grid.Column="3" Command="{Binding EqualsCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
         </Grid>
     </Grid>

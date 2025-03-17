@@ -61,6 +61,9 @@ namespace CalculatorApp
                         if (!string.IsNullOrEmpty(viewModel.DisplayText))
                             viewModel.EqualsCommand.Execute(null);
                         return;
+                    case Key.OemPeriod:
+                        viewModel.DecimalPointCommand.Execute(null);
+                        return;
                     case Key.Escape:
                         viewModel.ClearCommand.Execute(null);
                         return;
