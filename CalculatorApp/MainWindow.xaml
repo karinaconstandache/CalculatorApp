@@ -47,6 +47,10 @@
                     <MenuItem Header="About"/>
                 </MenuItem>
             </Menu>
+
+            <MenuItem Header="Digit Grouping" 
+                      IsCheckable="True" 
+                      IsChecked="{Binding IsDigitGroupingEnabled, Mode=TwoWay}"/>
         </StackPanel>
 
         <!-- Display for result -->

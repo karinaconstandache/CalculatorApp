@@ -14,6 +14,7 @@ namespace CalculatorApp.ViewModels
         private double _currentValue = 0;
         private string _selectedOperator;
         private bool _isNewEntry = true;
+        private bool _isDigitGroupingEnabled = false;
 
         private ObservableCollection<double> _memoryStack = new ObservableCollection<double>();
         private bool _isMemoryVisible = false;
@@ -26,10 +27,19 @@ namespace CalculatorApp.ViewModels
             get => _displayText;
             set
             {
-                _displayText = value;
+                if (double.TryParse(value.Replace(",", ""), out double numVal))
+                {
+                    _displayText = IsDigitGroupingEnabled ? FormatDisplayValue(numVal.ToString()) : numVal.ToString();
+                }
+                else
+                {
+                    _displayText = value;
+                }
+
                 OnPropertyChanged(nameof(DisplayText));
             }
         }
+
 
         public string HistoryText
         {
@@ -40,6 +50,21 @@ namespace CalculatorApp.ViewModels
                 OnPropertyChanged(nameof(HistoryText));
             }
         }
+
+        public bool IsDigitGroupingEnabled
+        {
+            get => _isDigitGroupingEnabled;
+            set
+            {
+                if (_isDigitGroupingEnabled != value)
+                {
+                    _isDigitGroupingEnabled = value;
+                    OnPropertyChanged(nameof(IsDigitGroupingEnabled));
+                    RefreshDisplay();  // Ensure the display is updated when toggling
+                }
+            }
+        }
+
 
         public ObservableCollection<double> MemoryStack
         {
@@ -61,6 +86,7 @@ namespace CalculatorApp.ViewModels
             }
         }
 
+        public ICommand ToggleDigitGroupingCommand { get; }
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
         public ICommand EqualsCommand { get; }
@@ -79,6 +105,7 @@ namespace CalculatorApp.ViewModels
 
         public CalculatorViewModel()
         {
+            ToggleDigitGroupingCommand = new RelayCommand(_ => ToggleDigitGrouping());
             NumberCommand = new RelayCommand(param => AppendNumber(param?.ToString() ?? ""));
             OperatorCommand = new RelayCommand(param => SetOperator(param?.ToString() ?? ""));
             EqualsCommand = new RelayCommand(_ => CalculateResult());
@@ -118,6 +145,70 @@ namespace CalculatorApp.ViewModels
             ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryVisibility());
         }
 
+        private void ToggleDigitGrouping()
+        {
+            IsDigitGroupingEnabled = !IsDigitGroupingEnabled;
+            RefreshDisplay();
+        }
+
+        private string FormatDisplayValue(string value)
+        {
+            if (!IsDigitGroupingEnabled || string.IsNullOrEmpty(value))
+                return value;
+
+            if (double.TryParse(value, out double numericValue))
+            {
+                if (double.IsNaN(numericValue) || double.IsInfinity(numericValue))
+                    return value;
+
+                // Preserve the original decimal portion if present
+                if (value.Contains("."))
+                {
+                    string[] parts = value.Split('.');
+                    string integerPart = string.Format("{0:N0}", double.Parse(parts[0]));
+                    string decimalPart = parts.Length > 1 ? parts[1] : "";
+
+                    return $"{integerPart}.{decimalPart}";
+                }
+
+                return string.Format("{0:N0}", numericValue);
+            }
+
+            return value;
+        }
+
+
+        private void RefreshDisplay()
+        {
+            string rawValue = DisplayText.Replace(",", "");  // Remove previous formatting
+
+            if (double.TryParse(rawValue, out double numVal))
+            {
+                if (IsDigitGroupingEnabled)
+                {
+                    if (rawValue.Contains("."))
+                    {
+                        string[] parts = rawValue.Split('.');
+                        string integerPart = string.Format("{0:N0}", double.Parse(parts[0]));
+                        string decimalPart = parts.Length > 1 ? parts[1] : "";
+                        _displayText = $"{integerPart}.{decimalPart}";
+                    }
+                    else
+                    {
+                        _displayText = string.Format("{0:N0}", numVal);
+                    }
+                }
+                else
+                {
+                    _displayText = rawValue; // Remove formatting if digit grouping is off
+                }
+
+                OnPropertyChanged(nameof(DisplayText));
+            }
+        }
+
+
+
         private void AppendNumber(string number)
         {
             if (_isNewEntry || DisplayText == "0")
@@ -128,7 +219,13 @@ namespace CalculatorApp.ViewModels
             {
                 DisplayText += number;
             }
+
             _isNewEntry = false;
+
+            if (IsDigitGroupingEnabled)
+            {
+                RefreshDisplay();
+            }
         }
 
         private void AppendDecimalPoint()
@@ -189,6 +286,11 @@ namespace CalculatorApp.ViewModels
             HistoryText = ""; // Clear history after calculation
             _selectedOperator = null;
             _isNewEntry = true;
+
+            if (IsDigitGroupingEnabled)
+            {
+                RefreshDisplay();
+            }
         }
 
         private void PerformUnaryOperation(string op)
