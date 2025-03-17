@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿// ProgrammerWindow.xaml.cs
+using System.Windows;
 
 namespace CalculatorApp
 {
@@ -13,8 +14,7 @@ namespace CalculatorApp
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close(); // Close Programmer Mode
+            this.Close(); // Close Programmer Mode window
         }
     }
 }
-
