@@ -68,11 +68,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource RoundedButton}" Content="MC" Background="#5A7A5F" Grid.Column="0" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="MR" Background="#5A7A5F" Grid.Column="1" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MC" Background="#5A7A5F" Grid.Column="0" Command="{Binding MemoryClearCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MR" Background="#5A7A5F" Grid.Column="1" Command="{Binding MemoryRecallCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="M+" Background="#5A7A5F" Grid.Column="2" Command="{Binding MemoryAddCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="M-" Background="#5A7A5F" Grid.Column="3" Command="{Binding MemoryRemoveCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
-            <Button Style="{StaticResource RoundedButton}" Content="MS" Background="#5A7A5F" Grid.Column="4" Click="ButtonClick" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
+            <Button Style="{StaticResource RoundedButton}" Content="MS" Background="#5A7A5F" Grid.Column="4" Command="{Binding MemoryStoreCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="M>" Background="#5A7A5F" Grid.Column="5" Command="{Binding ToggleMemoryCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
         </Grid>
 
@@ -81,24 +81,52 @@
             <Border Background="#EFEFEF" CornerRadius="8"
             Visibility="{Binding IsMemoryVisible, Converter={StaticResource BoolToVisibilityConverter}}"
             VerticalAlignment="Top"
-            Height="Auto"
             HorizontalAlignment="Stretch"
+            Height="Auto"
             Padding="10"
             Panel.ZIndex="2">
-
                 <StackPanel>
                     <TextBlock Text="Memory" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="5"/>
-                    <ListBox ItemsSource="{Binding MemoryStack}" 
-                     Foreground="Black" 
-                     Background="White" 
-                     Height="100" 
-                     BorderThickness="0"/>
-                    <Button Content="Close" Command="{Binding ToggleMemoryCommand}" 
-                    Background="#5A7A5F" Foreground="White"
-                    HorizontalAlignment="Center" 
-                    Margin="5"/>
+
+                    <!-- Memory List with Buttons for Each Item -->
+                    <ListBox ItemsSource="{Binding MemoryStack}" Foreground="Black" Background="White" Height="150" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <TextBlock Text="{Binding}" Width="50" VerticalAlignment="Center"/>
+
+                                    <!-- M+ Button -->
+                                    <Button Content="M+" 
+                        Command="{Binding DataContext.MemoryAddCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                        CommandParameter="{Binding}" 
+                        Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
+
+                                    <!-- M- Button -->
+                                    <Button Content="M-" 
+                        Command="{Binding DataContext.MemoryRemoveCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                        CommandParameter="{Binding}" 
+                        Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
+
+                                    <!-- MS Button -->
+                                    <Button Content="MS" 
+                        Command="{Binding DataContext.MemoryStoreCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                        CommandParameter="{Binding}" 
+                        Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
+
+                                    <!-- MC Button -->
+                                    <Button Content="MC" 
+                        Command="{Binding DataContext.MemoryClearCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                        CommandParameter="{Binding}" 
+                        Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button Content="Close" Command="{Binding ToggleMemoryCommand}" Background="#5A7A5F" Foreground="White" HorizontalAlignment="Center" Margin="5"/>
                 </StackPanel>
             </Border>
+
         </Grid>
 
 

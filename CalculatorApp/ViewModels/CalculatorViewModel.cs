@@ -16,6 +16,7 @@ namespace CalculatorApp.ViewModels
 
         private ObservableCollection<double> _memoryStack = new ObservableCollection<double>();
         private bool _isMemoryVisible = false;
+        private double _currentMemoryValue;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -69,6 +70,8 @@ namespace CalculatorApp.ViewModels
         public ICommand DecimalPointCommand { get; }
         public ICommand MemoryAddCommand { get; }
         public ICommand MemoryRemoveCommand { get; }
+        public ICommand MemoryStoreCommand { get; }
+        public ICommand MemoryClearCommand { get; }
         public ICommand ToggleMemoryCommand { get; }
 
         public CalculatorViewModel()
@@ -82,9 +85,11 @@ namespace CalculatorApp.ViewModels
             ClearEntryCommand = new RelayCommand(_ => ClearEntry());
             DecimalPointCommand = new RelayCommand(_ => AppendDecimalPoint());
 
-            MemoryAddCommand = new RelayCommand(_ => AddToMemory());
-            MemoryRemoveCommand = new RelayCommand(_ => RemoveFromMemory());
-            ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryDisplay());
+            MemoryAddCommand = new RelayCommand(param => AddToMemory(param as double?));
+            MemoryRemoveCommand = new RelayCommand(param => RemoveFromMemory(param as double?));
+            MemoryStoreCommand = new RelayCommand(param => StoreInMemory(param as double?));
+            MemoryClearCommand = new RelayCommand(param => ClearMemory());
+            ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryVisibility());
         }
 
         private void AppendNumber(string number)
@@ -226,8 +231,40 @@ namespace CalculatorApp.ViewModels
         {
             DisplayText = "0";
         }
+        private void AddToMemory(double? selectedMemoryValue)
+        {
+            Console.WriteLine($"M+ pressed. Current Display Value: {DisplayText}");
+            if (selectedMemoryValue.HasValue)
+            {
+                double valueToAdd = double.Parse(DisplayText);
+                int index = _memoryStack.IndexOf(selectedMemoryValue.Value);  // Find the selected item in the memory stack
+                if (index >= 0)
+                {
+                    _memoryStack[index] += valueToAdd;  // Add the displayed value to the selected memory item
+                }
+                Console.WriteLine("Updated Memory Stack: " + string.Join(", ", _memoryStack));
 
-        private void AddToMemory()
+                OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
+            }
+        }
+
+        private void RemoveFromMemory(double? selectedMemoryValue)
+        {
+            if (selectedMemoryValue.HasValue)
+            {
+                double valueToSubtract = double.Parse(DisplayText);
+                int index = _memoryStack.IndexOf(selectedMemoryValue.Value);  // Find the selected item in the memory stack
+                if (index >= 0)
+                {
+                    _memoryStack[index] -= valueToSubtract;  // Subtract the displayed value from the selected memory item
+                }
+                Console.WriteLine("Updated Memory Stack: " + string.Join(", ", _memoryStack));
+
+                OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
+            }
+        }
+
+        private void StoreInMemory(double? selectedMemoryValue)
         {
             if (double.TryParse(DisplayText, out double value))
             {
@@ -236,19 +273,15 @@ namespace CalculatorApp.ViewModels
             }
         }
 
-        private void RemoveFromMemory()
+        private void ClearMemory()
         {
-            if (_memoryStack.Any())
-            {
-                _memoryStack.RemoveAt(_memoryStack.Count - 1);
-                OnPropertyChanged(nameof(MemoryStack));
-            }
+            _memoryStack.Clear();  // Clear the entire memory stack
+            OnPropertyChanged(nameof(MemoryStack));  // Notify that the memory stack has been updated
         }
-
-        private void ToggleMemoryDisplay()
+        private void ToggleMemoryVisibility()
         {
-            IsMemoryVisible = !IsMemoryVisible;
-            OnPropertyChanged(nameof(IsMemoryVisible));
+            IsMemoryVisible = !IsMemoryVisible;  // Toggle the visibility state
+            OnPropertyChanged(nameof(IsMemoryVisible));  // Notify the UI to update
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
