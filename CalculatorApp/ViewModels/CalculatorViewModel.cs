@@ -12,11 +12,12 @@ namespace CalculatorApp.ViewModels
         private string _displayText = "0";
         private string _historyText = "";
         private double _currentValue = 0;
+
         private string _selectedOperator;
         private bool _isNewEntry = true;
+
         private bool _isDigitGroupingEnabled = false;
 
-        // Temporary string-based clipboard for Cut/Copy/Paste functionality.
         private string _clipboardText = string.Empty;
 
         private ObservableCollection<double> _memoryStack = new ObservableCollection<double>();
@@ -30,7 +31,6 @@ namespace CalculatorApp.ViewModels
             get => _displayText;
             set
             {
-                // Preserve a trailing decimal point
                 if (value.EndsWith("."))
                 {
                     _displayText = value;
@@ -68,7 +68,7 @@ namespace CalculatorApp.ViewModels
                 {
                     _isDigitGroupingEnabled = value;
                     OnPropertyChanged(nameof(IsDigitGroupingEnabled));
-                    RefreshDisplay();  // Ensure the display is updated when toggling
+                    RefreshDisplay();
                 }
             }
         }
@@ -93,7 +93,6 @@ namespace CalculatorApp.ViewModels
             }
         }
 
-        // Existing commands
         public ICommand ToggleDigitGroupingCommand { get; }
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
@@ -110,8 +109,6 @@ namespace CalculatorApp.ViewModels
         public ICommand MemoryRecallCommand { get; }
         public ICommand MemoryItemClearCommand { get; }
         public ICommand ToggleMemoryCommand { get; }
-
-        // New Cut, Copy, Paste commands using our own string-based clipboard
         public ICommand CutCommand { get; }
         public ICommand CopyCommand { get; }
         public ICommand PasteCommand { get; }
@@ -148,7 +145,7 @@ namespace CalculatorApp.ViewModels
                     }
                     else
                     {
-                        return; // Invalid parameter
+                        return;
                     }
 
                     _memoryStack.Remove(value);
@@ -157,7 +154,6 @@ namespace CalculatorApp.ViewModels
             });
             ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryVisibility());
 
-            // Initialize Cut, Copy, and Paste commands.
             CutCommand = new RelayCommand(ExecuteCut, CanExecuteCutOrCopy);
             CopyCommand = new RelayCommand(ExecuteCopy, CanExecuteCutOrCopy);
             PasteCommand = new RelayCommand(ExecutePaste, CanExecutePaste);
@@ -179,7 +175,6 @@ namespace CalculatorApp.ViewModels
                 if (double.IsNaN(numericValue) || double.IsInfinity(numericValue))
                     return value;
 
-                // Preserve the original decimal portion if present
                 if (value.Contains("."))
                 {
                     string[] parts = value.Split('.');
@@ -197,7 +192,7 @@ namespace CalculatorApp.ViewModels
 
         private void RefreshDisplay()
         {
-            string rawValue = DisplayText.Replace(",", "");  // Remove previous formatting
+            string rawValue = DisplayText.Replace(",", "");
 
             if (double.TryParse(rawValue, out double numVal))
             {
@@ -217,7 +212,7 @@ namespace CalculatorApp.ViewModels
                 }
                 else
                 {
-                    _displayText = rawValue; // Remove formatting if digit grouping is off
+                    _displayText = rawValue;
                 }
 
                 OnPropertyChanged(nameof(DisplayText));
@@ -247,7 +242,7 @@ namespace CalculatorApp.ViewModels
         {
             if (_isNewEntry)
             {
-                DisplayText = "0.";  // Start a new decimal number if necessary
+                DisplayText = "0."; 
                 _isNewEntry = false;
             }
             else if (!DisplayText.Contains("."))
@@ -298,7 +293,7 @@ namespace CalculatorApp.ViewModels
 
             DisplayText = result.ToString();
             _currentValue = result;
-            HistoryText = ""; // Clear history after calculation
+            HistoryText = "";
             _selectedOperator = null;
             _isNewEntry = true;
 
@@ -329,7 +324,6 @@ namespace CalculatorApp.ViewModels
                     break;
             }
 
-            // If there is a pending operator, update DisplayText but keep _currentValue
             if (_selectedOperator != null)
             {
                 DisplayText = result.ToString();
@@ -379,7 +373,7 @@ namespace CalculatorApp.ViewModels
         {
             if (double.TryParse(DisplayText, out double valueToAdd))
             {
-                if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
+                if (selectedMemoryValue.HasValue)
                 {
                     int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
                     if (index >= 0)
@@ -387,7 +381,7 @@ namespace CalculatorApp.ViewModels
                         _memoryStack[index] += valueToAdd;
                     }
                 }
-                else // Called from the main window (modify the last memory value)
+                else
                 {
                     if (_memoryStack.Any())
                     {
@@ -395,10 +389,10 @@ namespace CalculatorApp.ViewModels
                     }
                     else
                     {
-                        _memoryStack.Add(valueToAdd); // If empty, initialize memory with the value
+                        _memoryStack.Add(valueToAdd);
                     }
                 }
-                OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
+                OnPropertyChanged(nameof(MemoryStack));
             }
         }
 
@@ -406,7 +400,7 @@ namespace CalculatorApp.ViewModels
         {
             if (double.TryParse(DisplayText, out double valueToSubtract))
             {
-                if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
+                if (selectedMemoryValue.HasValue)
                 {
                     int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
                     if (index >= 0)
@@ -414,7 +408,7 @@ namespace CalculatorApp.ViewModels
                         _memoryStack[index] -= valueToSubtract;
                     }
                 }
-                else // Called from the main window (modify the last memory value)
+                else
                 {
                     if (_memoryStack.Any())
                     {
@@ -422,10 +416,10 @@ namespace CalculatorApp.ViewModels
                     }
                     else
                     {
-                        _memoryStack.Add(-valueToSubtract); // If empty, initialize memory with the value
+                        _memoryStack.Add(-valueToSubtract);
                     }
                 }
-                OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
+                OnPropertyChanged(nameof(MemoryStack));
             }
         }
 
@@ -441,7 +435,7 @@ namespace CalculatorApp.ViewModels
         private void ClearMemory(object selectedMemoryValue = null)
         {
             _memoryStack.Clear();
-            OnPropertyChanged(nameof(MemoryStack)); // Notify UI update
+            OnPropertyChanged(nameof(MemoryStack));
         }
 
         private void RecallMemory(double? selectedMemoryValue = null)
@@ -459,32 +453,27 @@ namespace CalculatorApp.ViewModels
 
         private void ToggleMemoryVisibility()
         {
-            IsMemoryVisible = !IsMemoryVisible;  // Toggle the visibility state
-            OnPropertyChanged(nameof(IsMemoryVisible));  // Notify the UI to update
+            IsMemoryVisible = !IsMemoryVisible; 
+            OnPropertyChanged(nameof(IsMemoryVisible)); 
         }
 
         #region Cut / Copy / Paste Implementation
 
-        // Determines if there is text available to cut or copy.
         private bool CanExecuteCutOrCopy(object parameter)
         {
-            // For example, disable cut/copy when DisplayText is "0" or empty.
             return !string.IsNullOrEmpty(DisplayText) && DisplayText != "0";
         }
 
-        // Determines if there is any text in our clipboard to paste.
         private bool CanExecutePaste(object parameter)
         {
             return !string.IsNullOrEmpty(_clipboardText);
         }
 
-        // Copies the current DisplayText into our temporary clipboard.
         private void ExecuteCopy(object parameter)
         {
             _clipboardText = DisplayText;
         }
 
-        // Cuts the current DisplayText into our temporary clipboard and clears the display.
         private void ExecuteCut(object parameter)
         {
             _clipboardText = DisplayText;
@@ -492,7 +481,6 @@ namespace CalculatorApp.ViewModels
             _isNewEntry = true;
         }
 
-        // Pastes the text from our temporary clipboard into the display.
         private void ExecutePaste(object parameter)
         {
             if (_isNewEntry || DisplayText == "0")

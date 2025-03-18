@@ -15,7 +15,6 @@ namespace CalculatorApp
             base.OnStartup(e);
             LoadSettings();
 
-            // Decide which window to show based on the saved mode.
             if (Settings.LastMode == "Programmer")
             {
                 var programmerWindow = new ProgrammerWindow();
@@ -45,7 +44,6 @@ namespace CalculatorApp
                 }
                 catch
                 {
-                    // In case of an error, load default settings.
                     Settings = GetDefaultSettings();
                 }
             }
@@ -65,9 +63,9 @@ namespace CalculatorApp
         {
             return new AppSettings
             {
-                IsDigitGroupingEnabled = true,  // default value
-                LastMode = "Standard",           // default mode
-                LastBase = 10                    // default base in programmer mode
+                IsDigitGroupingEnabled = true,  
+                LastMode = "Standard",           
+                LastBase = 10                   
             };
         }
     }

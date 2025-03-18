@@ -1,5 +1,4 @@
-﻿// ProgrammerWindow.xaml.cs
-using CalculatorApp.ViewModels;
+﻿using CalculatorApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -26,7 +25,7 @@ namespace CalculatorApp
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close(); // Close Programmer Mode window
+            this.Close(); 
         }
 
         private void Button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -63,9 +62,7 @@ namespace CalculatorApp
         {
             if (DataContext is ProgrammerCalculatorViewModel vm)
             {
-                // Persist the last selected base
                 App.Settings.LastBase = vm.SelectedBase;
-                // Indicate that Programmer mode was last used
                 App.Settings.LastMode = "Programmer";
             }
         }

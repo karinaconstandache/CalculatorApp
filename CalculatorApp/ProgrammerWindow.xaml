@@ -13,21 +13,17 @@
         <conv:DigitEnabledMultiConverter x:Key="DigitEnabledMultiConverter"/>
     </Window.Resources>
 
-    <!-- ViewModel for Programmer Mode -->
     <Window.DataContext>
         <local:ProgrammerCalculatorViewModel/>
     </Window.DataContext>
 
-    <!-- Main background matches Standard Mode's #6B8F71 -->
+    <!-- Background -->
     <Grid Background="#6B8F71">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Row 0: Top Panel -->
             <RowDefinition Height="Auto"/>
-            <!-- Row 1: Display -->
             <RowDefinition Height="*"/>
-            <!-- Row 2: Buttons Grid -->
         </Grid.RowDefinitions>
 
         <!-- Top Panel -->
@@ -35,7 +31,7 @@
                     Grid.Row="0"
                     Background="#5A7A5F"
                     Margin="5">
-            <!-- Base Selection ComboBox -->
+            <!-- Base Selection -->
             <ComboBox Width="180"
                       Margin="5,0,0,0"
                       ItemsSource="{Binding BaseOptions}"
@@ -43,7 +39,7 @@
                       SelectedValuePath="BaseNumber"
                       DisplayMemberPath="DisplayText" />
 
-            <!-- Return to Standard Mode Button -->
+            <!-- Return to Standard Mode -->
             <Button Style="{StaticResource RoundedButton}"
                     Content="Return to Standard Mode"
                     Background="#5A7A5F"
@@ -69,17 +65,11 @@
         <Grid Grid.Row="2" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <!-- row 0: operators -->
                 <RowDefinition Height="*"/>
-                <!-- row 1 -->
                 <RowDefinition Height="*"/>
-                <!-- row 2 -->
                 <RowDefinition Height="*"/>
-                <!-- row 3 -->
                 <RowDefinition Height="*"/>
-                <!-- row 4 -->
                 <RowDefinition Height="Auto"/>
-                <!-- row 5: = and Clear -->
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -89,7 +79,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Row 0: Operators (+ - * /) -->
+            <!-- Operators (+ - * /) -->
             <Button Style="{StaticResource RoundedButton}"
                     Content="+"
                     Background="#5A7A5F"

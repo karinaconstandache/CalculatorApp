@@ -29,17 +29,15 @@ namespace CalculatorApp
 
             if (DataContext is CalculatorViewModel vm)
             {
-                // Apply persisted digit grouping setting
                 vm.IsDigitGroupingEnabled = App.Settings.IsDigitGroupingEnabled;
             }
             this.Closing += Window_Closing;
-            this.KeyDown += MainWindow_KeyDown; // Attach KeyDown event handler
+            this.KeyDown += MainWindow_KeyDown;
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (DataContext is CalculatorViewModel viewModel)
             {
-                // Prioritize operator keys first
                 switch (e.Key)
                 {
                     case Key.OemPlus:
@@ -76,7 +74,6 @@ namespace CalculatorApp
                         return;
                 }
 
-                // Handle digit keys separately
                 if (e.Key >= Key.D0 && e.Key <= Key.D9)
                 {
                     viewModel.NumberCommand.Execute((e.Key - Key.D0).ToString());
@@ -86,7 +83,7 @@ namespace CalculatorApp
 
         private void ButtonClick(object sender, RoutedEventArgs e)
         {
-            //to be implemented
+            //placeholder
 
         }
 
@@ -140,9 +137,7 @@ namespace CalculatorApp
         {
             if (DataContext is CalculatorViewModel vm)
             {
-                // Persist the digit grouping state
                 App.Settings.IsDigitGroupingEnabled = vm.IsDigitGroupingEnabled;
-                // Indicate that Standard mode was last used
                 App.Settings.LastMode = "Standard";
             }
         }

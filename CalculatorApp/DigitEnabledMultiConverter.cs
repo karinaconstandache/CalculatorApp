@@ -1,5 +1,4 @@
-﻿// DigitEnabledMultiConverter.cs
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -25,7 +24,7 @@ namespace CalculatorApp.Converters
             }
             else if ("ABCDEF".Contains(digitStr))
             {
-                // Map A->10, B->11, etc.
+                // Mapping A->10, B->11...
                 digitValue = digitStr[0] - 'A' + 10;
                 return digitValue < selectedBase;
             }

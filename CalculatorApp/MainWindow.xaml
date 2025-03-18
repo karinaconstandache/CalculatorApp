@@ -22,15 +22,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Menu Bar -->
+        <!-- Menu -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Background="#5A7A5F">
-            <!-- Mode Switch Dropdown -->
+            <!-- Mode Switch-->
             <ComboBox Width="120" SelectedIndex="0" SelectionChanged="ModeSelectionChanged">
                 <ComboBoxItem Content="Standard" IsSelected="True"/>
                 <ComboBoxItem Content="Programmer"/>
             </ComboBox>
 
-            <!-- Menu Button with Dropdown -->
+            <!-- Menu Button -->
             <Menu>
                 <MenuItem Header="☰ Menu">
                     <MenuItem Header="Copy" Command="{Binding CopyCommand}"/>
@@ -43,7 +43,7 @@
                 </MenuItem>
             </Menu>
 
-            <!-- Help Button with Dropdown -->
+            <!-- Help button -->
             <Menu>
                 <MenuItem Header="Help">
                     <MenuItem Header="About" StaysOpenOnClick="True">
@@ -66,7 +66,7 @@
         <TextBlock Text="{Binding DisplayText, UpdateSourceTrigger=PropertyChanged}"
                    FontSize="50" Foreground="#FFFFFF" TextAlignment="Right" Padding="10" Height="80" Background="#5A7A5F" Grid.Row="2"/>
 
-        <!-- Memory Buttons -->
+        <!-- Memory buttons -->
         <Grid Grid.Row="3" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -85,7 +85,7 @@
         </Grid>
 
         <Grid Grid.Row="3" Margin="10">
-            <!-- Memory Stack Panel -->
+            <!-- Memory stack panel -->
             <Border Background="#EFEFEF" CornerRadius="8"
             Visibility="{Binding IsMemoryVisible, Converter={StaticResource BoolToVisibilityConverter}}"
             VerticalAlignment="Top"
@@ -96,26 +96,26 @@
                 <StackPanel>
                     <TextBlock Text="Memory" FontSize="20" Foreground="Black" FontWeight="Bold" Margin="5"/>
 
-                    <!-- Memory List with Buttons for Each Item -->
+                    <!-- Memory list with buttons for each item -->
                     <ListBox ItemsSource="{Binding MemoryStack}" Foreground="Black" Background="White" Height="150" BorderThickness="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="5">
                                     <TextBlock Text="{Binding}" Width="50" VerticalAlignment="Center"/>
 
-                                    <!-- M+ Button -->
+                                    <!-- M+ button -->
                                     <Button Content="M+" 
                         Command="{Binding DataContext.MemoryAddCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
                         CommandParameter="{Binding}" 
                         Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
 
-                                    <!-- M- Button -->
+                                    <!-- M- button -->
                                     <Button Content="M-" 
                         Command="{Binding DataContext.MemorySubtractCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
                         CommandParameter="{Binding}" 
                         Background="#5A7A5F" Foreground="White" Width="30" Margin="5"/>
 
-                                    <!-- MC Button -->
+                                    <!-- MC button -->
                                     <Button Content="MC" 
                         Command="{Binding DataContext.MemoryItemClearCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
                         CommandParameter="{Binding}" 
@@ -132,7 +132,7 @@
         </Grid>
 
 
-        <!-- Buttons Grid (Fitted Below Memory Buttons) -->
+        <!-- Buttons Grid -->
         <Grid Grid.Row="4" Margin="10" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -149,37 +149,37 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- First Row -->
+            <!-- First row -->
             <Button Style="{StaticResource RoundedButton}" Content="%" Background="#5A7A5F" Grid.Row="0" Grid.Column="0" Command="{Binding OperatorCommand}" CommandParameter="%" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="CE" Background="#5A7A5F" Grid.Row="0" Grid.Column="1" Command="{Binding ClearEntryCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="C" Background="#5A7A5F" Grid.Row="0" Grid.Column="2" Command="{Binding ClearCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="⌫" Background="#5A7A5F" Grid.Row="0" Grid.Column="3" Command="{Binding BackspaceCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
-            <!-- Second Row -->
+            <!-- Second row -->
             <Button Style="{StaticResource RoundedButton}" Content="1/x" Background="#5A7A5F" Grid.Row="1" Grid.Column="0" Command="{Binding UnaryCommand}" CommandParameter="1/x" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="x²" Background="#5A7A5F" Grid.Row="1" Grid.Column="1" Command="{Binding UnaryCommand}" CommandParameter="^2" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="²√x" Background="#5A7A5F" Grid.Row="1" Grid.Column="2" Command="{Binding UnaryCommand}" CommandParameter="sqrt" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="/" Background="#5A7A5F" Grid.Row="1" Grid.Column="3" Command="{Binding OperatorCommand}" CommandParameter="/" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
-            <!-- Third Row -->
+            <!-- Third row -->
             <Button Style="{StaticResource RoundedButton}" Content="7" Grid.Row="2" Grid.Column="0" Command="{Binding NumberCommand}" CommandParameter="7" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="8" Grid.Row="2" Grid.Column="1" Command="{Binding NumberCommand}" CommandParameter="8" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="9" Grid.Row="2" Grid.Column="2" Command="{Binding NumberCommand}" CommandParameter="9" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="×" Background="#5A7A5F" Grid.Row="2" Grid.Column="3" Command="{Binding OperatorCommand}" CommandParameter="*" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
-            <!-- Fourth Row -->
+            <!-- Fourth row -->
             <Button Style="{StaticResource RoundedButton}" Content="4" Grid.Row="3" Grid.Column="0" Command="{Binding NumberCommand}" CommandParameter="4" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="5" Grid.Row="3" Grid.Column="1" Command="{Binding NumberCommand}" CommandParameter="5" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="6" Grid.Row="3" Grid.Column="2" Command="{Binding NumberCommand}" CommandParameter="6" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="-" Background="#5A7A5F" Grid.Row="3" Grid.Column="3" Command="{Binding OperatorCommand}" CommandParameter="-" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
-            <!-- Fifth Row -->
+            <!-- Fifth row -->
             <Button Style="{StaticResource RoundedButton}" Content="1" Grid.Row="4" Grid.Column="0" Command="{Binding NumberCommand}" CommandParameter="1" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="2" Grid.Row="4" Grid.Column="1" Command="{Binding NumberCommand}" CommandParameter="2" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="3" Grid.Row="4" Grid.Column="2" Command="{Binding NumberCommand}" CommandParameter="3" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="+" Background="#5A7A5F" Grid.Row="4" Grid.Column="3" Command="{Binding OperatorCommand}" CommandParameter="+" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
 
-            <!-- Sixth Row -->
+            <!-- Sixth row -->
             <Button Style="{StaticResource RoundedButton}" Content="±" Background="#5A7A5F" Grid.Row="5" Grid.Column="0" Command="{Binding UnaryCommand}" CommandParameter="+/-" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="0" Grid.Row="5" Grid.Column="1" Command="{Binding NumberCommand}" CommandParameter="0" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
             <Button Style="{StaticResource RoundedButton}" Content="." Background="#5A7A5F" Grid.Row="5" Grid.Column="2" Command="{Binding DecimalPointCommand}" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave"/>
