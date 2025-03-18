@@ -26,6 +26,13 @@ namespace CalculatorApp
         public MainWindow()
         {
             InitializeComponent();
+
+            if (DataContext is CalculatorViewModel vm)
+            {
+                // Apply persisted digit grouping setting
+                vm.IsDigitGroupingEnabled = App.Settings.IsDigitGroupingEnabled;
+            }
+            this.Closing += Window_Closing;
             this.KeyDown += MainWindow_KeyDown; // Attach KeyDown event handler
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -126,6 +133,17 @@ namespace CalculatorApp
 
                     this.Close();
                 }
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext is CalculatorViewModel vm)
+            {
+                // Persist the digit grouping state
+                App.Settings.IsDigitGroupingEnabled = vm.IsDigitGroupingEnabled;
+                // Indicate that Standard mode was last used
+                App.Settings.LastMode = "Standard";
             }
         }
 

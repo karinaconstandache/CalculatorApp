@@ -1,4 +1,5 @@
 ﻿// ProgrammerWindow.xaml.cs
+using CalculatorApp.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,6 +15,11 @@ namespace CalculatorApp
         public ProgrammerWindow()
         {
             InitializeComponent();
+            if (DataContext is ProgrammerCalculatorViewModel vm)
+            {
+                vm.SelectedBase = App.Settings.LastBase;
+            }
+            this.Closing += Window_Closing;
         }
 
         private void ReturnToStandardMode_Click(object sender, RoutedEventArgs e)
@@ -50,6 +56,17 @@ namespace CalculatorApp
                 {
                     button.Background = normalOperatorColor;
                 }
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext is ProgrammerCalculatorViewModel vm)
+            {
+                // Persist the last selected base
+                App.Settings.LastBase = vm.SelectedBase;
+                // Indicate that Programmer mode was last used
+                App.Settings.LastMode = "Programmer";
             }
         }
     }
