@@ -16,6 +16,9 @@ namespace CalculatorApp.ViewModels
         private bool _isNewEntry = true;
         private bool _isDigitGroupingEnabled = false;
 
+        // Temporary string-based clipboard for Cut/Copy/Paste functionality.
+        private string _clipboardText = string.Empty;
+
         private ObservableCollection<double> _memoryStack = new ObservableCollection<double>();
         private bool _isMemoryVisible = false;
         private double _currentMemoryValue;
@@ -46,8 +49,6 @@ namespace CalculatorApp.ViewModels
             }
         }
 
-
-
         public string HistoryText
         {
             get => _historyText;
@@ -72,7 +73,6 @@ namespace CalculatorApp.ViewModels
             }
         }
 
-
         public ObservableCollection<double> MemoryStack
         {
             get => _memoryStack;
@@ -93,6 +93,7 @@ namespace CalculatorApp.ViewModels
             }
         }
 
+        // Existing commands
         public ICommand ToggleDigitGroupingCommand { get; }
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
@@ -109,6 +110,11 @@ namespace CalculatorApp.ViewModels
         public ICommand MemoryRecallCommand { get; }
         public ICommand MemoryItemClearCommand { get; }
         public ICommand ToggleMemoryCommand { get; }
+
+        // New Cut, Copy, Paste commands using our own string-based clipboard
+        public ICommand CutCommand { get; }
+        public ICommand CopyCommand { get; }
+        public ICommand PasteCommand { get; }
 
         public CalculatorViewModel()
         {
@@ -150,6 +156,11 @@ namespace CalculatorApp.ViewModels
                 }
             });
             ToggleMemoryCommand = new RelayCommand(_ => ToggleMemoryVisibility());
+
+            // Initialize Cut, Copy, and Paste commands.
+            CutCommand = new RelayCommand(ExecuteCut, CanExecuteCutOrCopy);
+            CopyCommand = new RelayCommand(ExecuteCopy, CanExecuteCutOrCopy);
+            PasteCommand = new RelayCommand(ExecutePaste, CanExecutePaste);
         }
 
         private void ToggleDigitGrouping()
@@ -183,7 +194,6 @@ namespace CalculatorApp.ViewModels
 
             return value;
         }
-
 
         private void RefreshDisplay()
         {
@@ -364,6 +374,7 @@ namespace CalculatorApp.ViewModels
         {
             DisplayText = "0";
         }
+
         private void AddToMemory(double? selectedMemoryValue = null)
         {
             if (double.TryParse(DisplayText, out double valueToAdd))
@@ -395,7 +406,6 @@ namespace CalculatorApp.ViewModels
         {
             if (double.TryParse(DisplayText, out double valueToSubtract))
             {
-
                 if (selectedMemoryValue.HasValue) // Called from M> menu (specific value)
                 {
                     int index = _memoryStack.IndexOf(selectedMemoryValue.Value);
@@ -427,6 +437,7 @@ namespace CalculatorApp.ViewModels
                 OnPropertyChanged(nameof(MemoryStack));
             }
         }
+
         private void ClearMemory(object selectedMemoryValue = null)
         {
             _memoryStack.Clear();
@@ -451,6 +462,51 @@ namespace CalculatorApp.ViewModels
             IsMemoryVisible = !IsMemoryVisible;  // Toggle the visibility state
             OnPropertyChanged(nameof(IsMemoryVisible));  // Notify the UI to update
         }
+
+        #region Cut / Copy / Paste Implementation
+
+        // Determines if there is text available to cut or copy.
+        private bool CanExecuteCutOrCopy(object parameter)
+        {
+            // For example, disable cut/copy when DisplayText is "0" or empty.
+            return !string.IsNullOrEmpty(DisplayText) && DisplayText != "0";
+        }
+
+        // Determines if there is any text in our clipboard to paste.
+        private bool CanExecutePaste(object parameter)
+        {
+            return !string.IsNullOrEmpty(_clipboardText);
+        }
+
+        // Copies the current DisplayText into our temporary clipboard.
+        private void ExecuteCopy(object parameter)
+        {
+            _clipboardText = DisplayText;
+        }
+
+        // Cuts the current DisplayText into our temporary clipboard and clears the display.
+        private void ExecuteCut(object parameter)
+        {
+            _clipboardText = DisplayText;
+            DisplayText = "0";
+            _isNewEntry = true;
+        }
+
+        // Pastes the text from our temporary clipboard into the display.
+        private void ExecutePaste(object parameter)
+        {
+            if (_isNewEntry || DisplayText == "0")
+            {
+                DisplayText = _clipboardText;
+            }
+            else
+            {
+                DisplayText += _clipboardText;
+            }
+            _isNewEntry = false;
+        }
+
+        #endregion
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

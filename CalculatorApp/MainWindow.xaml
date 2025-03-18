@@ -33,11 +33,13 @@
             <!-- Menu Button with Dropdown -->
             <Menu>
                 <MenuItem Header="☰ Menu">
-                    <MenuItem Header="Copy"/>
-                    <MenuItem Header="Cut"/>
-                    <MenuItem Header="Paste"/>
+                    <MenuItem Header="Copy" Command="{Binding CopyCommand}"/>
+                    <MenuItem Header="Cut" Command="{Binding CutCommand}"/>
+                    <MenuItem Header="Paste" Command="{Binding PasteCommand}"/>
                     <Separator/>
-                    <MenuItem Header="Digit Grouping"/>
+                    <MenuItem Header="Digit Grouping" 
+                      IsCheckable="True" 
+                      IsChecked="{Binding IsDigitGroupingEnabled, Mode=TwoWay}"/>
                 </MenuItem>
             </Menu>
 
@@ -52,12 +54,8 @@
                     </MenuItem>
                 </MenuItem>
             </Menu>
-
-            <MenuItem Header="Digit Grouping" 
-                      IsCheckable="True" 
-                      IsChecked="{Binding IsDigitGroupingEnabled, Mode=TwoWay}"
-                      Focusable="False"/>
         </StackPanel>
+
 
         <!-- Display for result -->
         <TextBlock Text="{Binding HistoryText, UpdateSourceTrigger=PropertyChanged}"
