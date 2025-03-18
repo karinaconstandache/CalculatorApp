@@ -44,7 +44,12 @@
             <!-- Help Button with Dropdown -->
             <Menu>
                 <MenuItem Header="Help">
-                    <MenuItem Header="About"/>
+                    <MenuItem Header="About" StaysOpenOnClick="True">
+                        <TextBox Text="Constandache Karina-Melissa, 10LF231" 
+                         IsReadOnly="True" 
+                         BorderThickness="0" 
+                         Background="Transparent"/>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
 
